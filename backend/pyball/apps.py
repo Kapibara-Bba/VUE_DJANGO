@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AppballConfig(AppConfig):
+class PyballConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'appball'
+    name = 'pyball'
