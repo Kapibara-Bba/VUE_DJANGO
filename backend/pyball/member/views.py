@@ -1,5 +1,5 @@
 from rest_framework import views
-from .models import Member
+from ..models import Member
 from django.shortcuts import render
 from .serializers import MemberSerializer
 
