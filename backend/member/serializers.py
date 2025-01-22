@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Member, Team, Schedule, GameResult
+from pyball.models import Member, Team, Schedule, GameResult
 
 class MemberSerializer(serializers.ModelSerializer):
   """メンバーシリアライザ"""
