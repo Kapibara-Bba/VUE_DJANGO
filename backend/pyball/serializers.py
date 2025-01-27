@@ -4,6 +4,7 @@ from .models import Member, Team, Schedule, GameResult
 class LoginSerializer(serializers.Serializer):
     name = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+    team = serializers.CharField(required=False)
 
 # class MemberSerializer(serializers.ModelSerializer):
 #   """メンバーシリアライザ"""
