@@ -4,6 +4,14 @@
     <LoginForm @login="handleLogin" />
     <ErrorMessage v-if="errorMessage" :message="errorMessage" />
   </div>
+
+  <!-- 新規登録ボタン -->
+  <div>
+    <p>アカウントをお持ちでない場合:</p>
+    <button @click="goToRegister" class="register-button">
+      新規登録
+    </button>
+  </div>
 </template>
 
 <script>
@@ -44,6 +52,9 @@ export default {
         this.errorMessage = 'ログインに失敗しました。ユーザー名またはパスワードを確認してください。';
       }
     },
+    goToRegister() {
+      this.$router.push('/register'); // 新規登録画面に遷移
+    }
   },
 };
 </script>

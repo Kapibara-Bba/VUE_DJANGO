@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <Login />
+    <router-view />
   </div>
 </template>
 
-<script>
+<!-- <script>
 import Login from "./components/MemberLogin.vue";
 
 export default {
@@ -12,4 +12,4 @@ export default {
     Login,
   },
 };
-</script>
+</script> -->

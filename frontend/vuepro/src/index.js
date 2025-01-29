@@ -1,19 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../src/components/MemberLogin.vue';
-// import Dashboard from '../components/Dashboard.vue';
+import Register from './components/MemberRegister.vue';
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: Login, // ログイン画面のコンポーネント
   },
-  // {
-  //   path: '/dashboard',
-  //   name: 'Dashboard',
-  //   component: Dashboard, // ダッシュボード画面のコンポーネント
-  //   meta: { requiresAuth: true }, // 認証が必要なルート
-  // },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register, // 新規登録画面のコンポーネント
+    // meta: { requiresAuth: true }, // 認証が必要なルート
+  },
 ];
 
 const router = createRouter({
@@ -22,13 +22,13 @@ const router = createRouter({
 });
 
 // 認証が必要なルートへのアクセスを保護するミドルウェア
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('authToken'); // ログイン状態を確認
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login'); // 認証されていない場合はログイン画面へリダイレクト
-  } else {
-    next(); // それ以外の場合は次のルートへ
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   const isAuthenticated = !!localStorage.getItem('authToken'); // ログイン状態を確認
+//   if (to.meta.requiresAuth && !isAuthenticated) {
+//     next('/login'); // 認証されていない場合はログイン画面へリダイレクト
+//   } else {
+//     next(); // それ以外の場合は次のルートへ
+//   }
+// });
 
 export default router;
