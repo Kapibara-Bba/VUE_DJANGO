@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from .models import Member
 from .serializers import LoginSerializer
-from .service import createMember
+from .service import createMember, fetchTeam
 
 logger = logging.getLogger(__name__)
 
@@ -26,17 +26,24 @@ class LoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class RegisterView(APIView):
+    def get(self):
+        print("★★★★get_member★★★★")
+        team = fetchTeam
+        
+
     def post(self, request):
         logger.debug("★★★★★★★")
         logger.info(f"Received data: {request.data}")
+        print("★★★★★★★")
+        print(f"Received data: {request.data}")
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            username = serializer.validated_data['name']
+            name = serializer.validated_data['name']
             password = serializer.validated_data['password']
             team = serializer.validated_data['team']
 
             # メンバー登録
-            createMember(username, password, team)
+            createMember(member_name=name, password=password, team=team)
             return Response({"message": "Register successful!"})
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
