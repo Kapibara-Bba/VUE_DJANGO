@@ -29,7 +29,7 @@ class RegisterView(APIView):
     def get(self):
         print("★★★★get_member★★★★")
         team = fetchTeam
-        
+        Response(team)
 
     def post(self, request):
         logger.debug("★★★★★★★")

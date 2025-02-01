@@ -1,7 +1,7 @@
 from .models import Member, Team
 
 def fetchTeam():
-  return Team.objects.all()
+  return Team.objects.all().values_list("id", "name", "director")
 
 def createMember(member_name, password, team):
   print("★★★★Service★★★★★")
