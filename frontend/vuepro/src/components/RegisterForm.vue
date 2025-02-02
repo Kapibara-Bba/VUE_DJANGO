@@ -9,8 +9,12 @@
       <input id="password" v-model="password" type="password" required />
     </div>
     <div>
-      <label for="team">所属チーム:</label>
-      <input id="team" v-model="team" type="text" required />
+      <label for="member">メンバー選択:</label>
+      <select v-model="selectedMember">
+        <option v-for="member in members" :key="member.id" :value="member.id">
+          {{ member.name }}
+        </option>
+      </select>
     </div>
     <button type="submit">登録</button>
   </form>
