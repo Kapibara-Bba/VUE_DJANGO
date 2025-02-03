@@ -27,23 +27,31 @@ class LoginView(APIView):
 
 class RegisterView(APIView):
     def get(self):
+        """チーム情報取得"""
         print("★★★★get_member★★★★")
         team = fetchTeam
         Response(team)
 
     def post(self, request):
+        """メンバー新規登録"""
         logger.debug("★★★★★★★")
         logger.info(f"Received data: {request.data}")
         print("★★★★★★★")
         print(f"Received data: {request.data}")
         serializer = LoginSerializer(data=request.data)
+
         if serializer.is_valid():
             name = serializer.validated_data['name']
             password = serializer.validated_data['password']
-            team = serializer.validated_data['team']
+            team_id = serializer.validated_data['team_id']
+            team_name = serializer.validated_data['team_name']
+            director = serializer.validated_data['director']
+            # チームの存在チェック
+            
+
 
             # メンバー登録
-            createMember(member_name=name, password=password, team=team)
+            createMember(member_name=name, password=password, team=team_id)
             return Response({"message": "Register successful!"})
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

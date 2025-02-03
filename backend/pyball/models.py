@@ -11,7 +11,7 @@ class Member(models.Model):
   updated_user = models.CharField
 
 class Team(models.Model):
-  name = models.CharField
+  team_name = models.CharField
   director = models.CharField
   schedule = models.CharField
   game_result = models.CharField
