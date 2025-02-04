@@ -4,7 +4,7 @@ from .models import Member, Team, Schedule, GameResult
 class LoginSerializer(serializers.Serializer):
     name = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
-    team_id = serializers.CharField(required=False)
+    team_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     team_name = serializers.CharField(required=True)
     director = serializers.CharField(required=True)
 
