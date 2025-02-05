@@ -14,9 +14,17 @@
         <label for="team">チーム選択:</label>
         <select v-model="selectedTeam">
           <option v-for="team in teams" :key="team.id" :value="team.id">
-            {{ team.name , team.}}
+            {{ team.name}}
           </option>
         </select>
+      </div>
+      <div>
+        <label for="team-name">チーム名:</label>
+        <input type="text" v-model="team_name"/>
+      </div>
+      <div>
+        <label for="director">チーム代表者:</label>
+        <input type="text" v-model="director" />
       </div>
       <button type="submit">登録</button>
     </form>
@@ -27,15 +35,17 @@
 export default {
   data() {
     return {
-      username: "",
+      name: "",
       password: "",
-      members: [],         // メンバーリスト
-      selectedMember: null // 選択されたメンバーのID
+      team_name: "",
+      director: "",
+      team: [],         // チームリスト
+      selectedTeam: null // 選択されたチームのID
     };
   },
   async created() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/team/", {
+      const response = await fetch("http://127.0.0.1:8000/api/register/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -50,6 +60,14 @@ export default {
   methods: {
     async registerMember() {
       try {
+        const criteria = {
+          name: this.name,
+          password: this.password,
+          team_name: this.team_name,
+          director: this.director,
+          team_id: this.selectedTeam
+        };
+
         const response = await fetch("http://127.0.0.1:8000/api/register/", {
           method: "POST",
           headers: {
