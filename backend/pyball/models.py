@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Member(models.Model):
   team = models.ForeignKey
   name = models.CharField(max_length=100)
