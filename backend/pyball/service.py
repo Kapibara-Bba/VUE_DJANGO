@@ -21,7 +21,7 @@ def createMember(member_name, password, team_id):
   print(password)
   print(team_id)
   Member.objects.create(
-    team=team_id,
+    team=Team.objects.get(id=team_id),
     name=member_name,
     password=password
   )

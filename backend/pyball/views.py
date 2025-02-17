@@ -50,10 +50,16 @@ class RegisterView(APIView):
       if team_id is None:
         # チーム登録
         team = createTeam(team_name=team_name, director=director)
+        print("TEAM_CERATED")
+        print(team)
+        print(team.id)
         team_id=team.id
 
       # メンバー登録
-      createMember(member_name=name, password=password, team=team_id)
+      print("TEAM_ID")
+      print(team_id)
+      print("TEAM_ID END")
+      createMember(member_name=name, password=password, team_id=team_id)
       return Response({"message": "Register successful!"})
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
