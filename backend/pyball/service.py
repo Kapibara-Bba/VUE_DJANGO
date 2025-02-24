@@ -1,8 +1,10 @@
 from .models import Member, Team
+from django.forms.models import model_to_dict
 
 def fetchTeam():
   """メンバー新規登録時のチーム情報取得"""
-  return Team.objects.all().values_list("id", "name", "director")
+  return [model_to_dict(team) for team in Team.objects.all()]
+  # return list(Team.objects.all().values_list("id", "team_name", "director"))
 
 def createTeam(team_name, director):
   """チーム登録"""

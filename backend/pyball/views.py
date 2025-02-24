@@ -29,15 +29,12 @@ class RegisterView(APIView):
   def get(self, request):
     """チーム情報取得"""
     print("★★★★get_member★★★★")
-    team = fetchTeam
-    Response(team)
+    team_list = fetchTeam()
+    print(team_list)
+    return Response(data=team_list, status=200)
 
   def post(self, request):
     """メンバー新規登録"""
-    logger.debug("★★★★★★★")
-    logger.info(f"Received data: {request.data}")
-    print("★★★★★★★")
-    print(f"Received data: {request.data}")
     serializer = LoginSerializer(data=request.data)
 
     if serializer.is_valid():
@@ -50,15 +47,9 @@ class RegisterView(APIView):
       if team_id is None:
         # チーム登録
         team = createTeam(team_name=team_name, director=director)
-        print("TEAM_CERATED")
-        print(team)
-        print(team.id)
         team_id=team.id
 
       # メンバー登録
-      print("TEAM_ID")
-      print(team_id)
-      print("TEAM_ID END")
       createMember(member_name=name, password=password, team_id=team_id)
       return Response({"message": "Register successful!"})
 
