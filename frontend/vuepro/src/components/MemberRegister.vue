@@ -14,7 +14,7 @@
         <label for="team">チーム選択:</label>
         <select v-model="selectedTeam">
           <option v-for="team in teams" :key="team.id" :value="team.id">
-            {{ team.name}}
+            {{ team.team_name}}
           </option>
         </select>
       </div>
@@ -39,25 +39,29 @@ export default {
       password: "",
       team_name: "",
       director: "",
-      team: [],         // チームリスト
+      teams: [],         // チームリスト
       selectedTeam: null // 選択されたチームのID
     };
   },
-  async created() {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/register/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // const response = await axios.get("http://127.0.0.1:8000/api/team/");
-      this.members = response.data; // メンバーリストを取得
-    } catch (error) {
-      console.error("チーム情報の取得に失敗しました", error);
-    }
+  async mounted() {
+    await this.fetchTeams();
   },
   methods: {
+    async fetchTeams() {
+     try {
+       const response = await fetch("http://127.0.0.1:8000/api/register/", {
+         method: "GET",
+         headers: {
+           "Content-Type": "application/json",
+         },
+       });
+      //  alert(response.data);
+       // const response = await axios.get("http://127.0.0.1:8000/api/team/");
+       this.teams = await response.json(); // メンバーリストを取得
+     } catch (error) {
+       console.error("チーム情報の取得に失敗しました", error);
+     }
+   },
     async registerMember() {
       try {
         const criteria = {
