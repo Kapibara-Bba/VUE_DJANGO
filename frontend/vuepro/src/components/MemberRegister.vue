@@ -112,7 +112,13 @@ export default {
           };
         } else {
           // 既存ユーザーを選択した場合、IDを送信
-          criteria = { id: this.selectedTeam };
+          criteria = {
+            name: this.name,
+            password: this.password,
+            team_name: this.team_name,
+            director: this.director,
+            team_id: this.selectedTeam,
+          };
         }
 
         const response = await fetch("http://127.0.0.1:8000/api/register/", {
@@ -122,6 +128,10 @@ export default {
           },
           body: JSON.stringify(criteria),
         });
+        if (response.status == 200) {
+          this.$router.push('/dashboard');
+        }
+
         console.log('ログイン成功:', response.data);
         alert(response.data.message); // ログイン成功
       } catch (error) {
