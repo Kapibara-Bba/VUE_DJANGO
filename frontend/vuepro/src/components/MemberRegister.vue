@@ -35,7 +35,14 @@
 </template>
 
 <script>
+import { useMemberStore } from "@/stores/memberStore";
+
 export default {
+  setup() {
+    const store = useUserStore();
+    return { store };
+  },
+
   data() {
     return {
       name: "",
@@ -68,7 +75,7 @@ export default {
           },
         });
         const data = await response.json(); // メンバーリストを取得
-        // チームリストをセット（フォーマット済み）
+        // チームリストをセット
         this.teams = data.map(team => ({
           id: team.id,
           team_name: team.team_name,
@@ -128,12 +135,12 @@ export default {
           },
           body: JSON.stringify(criteria),
         });
-        if (response.status == 200) {
-          this.$router.push('/dashboard');
+        if (response.status === 200){
+          console.log('ログイン成功:', response.data);
+          // alert(response.data); // ログイン成功
+          this.store.setUser(response.data); // Pinia にユーザー情報を保存
+          this.$router.push('/dashboard'); // トップ画面に遷移
         }
-
-        console.log('ログイン成功:', response.data);
-        alert(response.data.message); // ログイン成功
       } catch (error) {
         console.error("登録エラー", error);
       }
