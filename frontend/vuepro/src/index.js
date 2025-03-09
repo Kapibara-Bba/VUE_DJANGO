@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../src/components/MemberLogin.vue';
 import Register from './components/MemberRegister.vue';
+import DashBoard from './components/DashBoard.vue';
 
 const routes = [
   {
@@ -14,6 +15,11 @@ const routes = [
     component: Register, // 新規登録画面のコンポーネント
     // meta: { requiresAuth: true }, // 認証が必要なルート
   },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: DashBoard,
+  }
 ];
 
 const router = createRouter({

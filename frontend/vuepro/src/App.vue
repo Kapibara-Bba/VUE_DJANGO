@@ -4,6 +4,10 @@
   </div>
 </template>
 
+<script>
+export default {
+};
+</script>
 <!-- <script>
 import Login from "./components/MemberLogin.vue";
 
