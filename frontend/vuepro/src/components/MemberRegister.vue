@@ -4,11 +4,13 @@
     <form @submit.prevent="registerMember">
       <div>
         <label for="name">ユーザー名</label>
-        <input type="text" v-model="name" required />
+        <input type="text" v-model="name" />
+        <p v-if="errors.name" class="text-danger">{{ errors.name }}</p>
       </div>
       <div>
         <label for="password">パスワード</label>
-        <input type="password" v-model="password" required />
+        <input type="password" v-model="password" />
+        <p v-if="errors.password" class="text-danger">{{ errors.password }}</p>
       </div>
       <div>
         所属チーム
@@ -24,10 +26,12 @@
       <div>
         <label for="team-name">チーム名</label>
         <input type="text" v-model="team_name" :disabled="selectedTeam !== ''" />
+        <p v-if="errors.team_name" class="text-danger">{{ errors.team_name }}</p>
       </div>
       <div>
         <label for="director">チーム代表者</label>
         <input type="text" v-model="director" :disabled="selectedTeam !== ''" />
+        <p v-if="errors.director" class="text-danger">{{ errors.director }}</p>
       </div>
       <!-- 選択したユーザーのIDを hidden で保持 -->
       <input type="hidden" :value="selectedTeam" name="id" />
@@ -56,6 +60,12 @@ export default {
       director: "",
       teams: [],         // チームリスト
       selectedTeam: "", // 選択されたチームのID
+      errors: {
+        name: '',
+        password: '',
+        team_name: "",
+        director: "",
+      }
     };
   },
   computed: {
@@ -71,6 +81,42 @@ export default {
     await this.fetchTeams();
   },
   methods: {
+    validateCheck() {
+      // ユーザー名バリデーションチェック
+      const name = this.name;
+      if (name === '' || name === null) {
+        this.errors[`name`] = 'ユーザー名を入力してください。';
+      } else {
+        this.errors[`name`] = '';
+      }
+
+      // パスワードのバリデーションチェック
+      const password = this.password;
+
+      if (password === '' || password === null) {
+        this.errors[`password`] = 'パスワードを入力してください。';
+      } else {
+        this.errors[`password`] = '';
+      }
+    },
+    validateTeamCheck() {
+      // チーム名バリデーションチェック
+      const team_name = this.team_name;
+      if (team_name === '' || team_name === null) {
+        this.errors[`team_name`] = 'チーム名を入力してください。';
+      } else {
+        this.errors[`team_name`] = '';
+      }
+
+      // チーム代表者のバリデーションチェック
+      const director = this.director;
+
+      if (director === '' || director === null) {
+        this.errors[`director`] = 'チーム代表者を入力してください。';
+      } else {
+        this.errors[`director`] = '';
+      }
+    },
     async fetchTeams() {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/register/", {
@@ -107,7 +153,16 @@ export default {
       try {
         let criteria = {};
         if (this.selectedTeam === "") {
-          // 「選択しない」が選択された場合、新規ユーザー情報を送信
+          // 「新規登録」が選択された場合、新規ユーザー情報を送信
+          // バリデーションチェック
+          this.validateCheck();
+          this.validateTeamCheck();
+
+          // エラーがある場合は送信中止
+          if (this.errors.name || this.errors.password || this.errors.team_name || this.errors.director) {
+            return;
+          }
+
           criteria = {
             name: this.name,
             password: this.password,
@@ -116,7 +171,15 @@ export default {
             team_id: null,
           };
         } else {
-          // 既存ユーザーを選択した場合、IDを送信
+          // 既存チームを選択した場合
+          // バリデーションチェック
+          this.validateCheck();
+
+          // エラーがある場合は送信中止
+          if (this.errors.name || this.errors.password) {
+            return;
+          }
+
           criteria = {
             name: this.name,
             password: this.password,

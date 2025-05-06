@@ -11,7 +11,7 @@ def fetchTeam():
 
 def createTeam(team_name, director):
   """チーム登録"""
-  Team.objects.create(
+  return Team.objects.create(
     team_name=team_name,
     director=director
   )

@@ -28,6 +28,10 @@ export default {
       name: '',
       password: '',
       team: '',
+      errors: {
+        name: '',
+        password: ''
+      }
     };
   },
   methods: {

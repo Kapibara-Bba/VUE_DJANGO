@@ -1,12 +1,14 @@
 <template>
   <form @submit.prevent="onSubmit">
     <div>
-      <label for="username">ユーザ名</label>
-      <input id="name" v-model="name" type="text" required />
+      <label for="username">ユーザー名</label>
+      <input id="name" v-model="name" type="text" />
+      <p v-if="errors.name" class="text-danger">{{ errors.name }}</p>
     </div>
     <div>
       <label for="password">パスワード</label>
-      <input id="password" v-model="password" type="password" required />
+      <input id="password" v-model="password" type="password" />
+      <p v-if="errors.password" class="text-danger">{{ errors.password }}</p>
     </div>
     <button class="btn" type="submit">ログイン</button>
   </form>
@@ -19,10 +21,40 @@ export default {
     return {
       name: '',
       password: '',
+      errors: {
+        name: '',
+        password: ''
+      }
     };
   },
   methods: {
+    validateCheck() {
+      // ユーザー名バリデーションチェック
+      const name = this.name;
+      if (name === '' || name === null) {
+        this.errors[`name`] = 'ユーザー名を入力してください。';
+      } else {
+        this.errors[`name`] = '';
+      }
+
+      // パスワードのバリデーションチェック
+      const password = this.password;
+
+      if (password === '' || password === null) {
+        this.errors[`password`] = 'パスワードを入力してください。';
+      } else {
+        this.errors[`password`] = '';
+      }
+    },
     onSubmit() {
+      // バリデーションチェック
+      this.validateCheck();
+
+      // エラーがある場合は送信中止
+      if (this.errors.name || this.errors.password) {
+        return;
+      }
+
       // 入力データを親に送信
       this.$emit('login', { name: this.name, password: this.password });
     },
