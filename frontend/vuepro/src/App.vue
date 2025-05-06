@@ -1,19 +1,23 @@
 <template>
-  <div id="app">
+  <div :class="layoutClass">
     <router-view />
   </div>
 </template>
 
-<script>
-export default {
-};
-</script>
-<!-- <script>
-import Login from "./components/MemberLogin.vue";
+<script setup>
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 
-export default {
-  components: {
-    Login,
-  },
-};
-</script> -->
+const route = useRoute()
+
+const layoutClass = computed(() => {
+  return route.name === 'Login' || route.name === 'Register' ? 'login-background' : '' // ログイン画面と新規登録画面に背景色設定
+})
+</script>
+
+<style>
+.login-background {
+  background-color: #63b47a;
+  min-height: 100vh;
+}
+</style>
